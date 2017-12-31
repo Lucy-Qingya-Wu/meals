@@ -10,8 +10,8 @@ export default function ShoppingList({list}){
 			</h3>
 
 			<ul>
-				{list.map((item)=>(
-					<li key={item}>
+				{list.map((item, index)=>(
+					<li key={index}>
 						{item}
 					</li>
 				))}

@@ -44,6 +44,7 @@ function food(state={}, action){
 	switch (action.type){
 		case ADD_RECIPE:
 			const {recipe} = action
+			console.log("action", action)
 			return {
 				...state,
 				[recipe.label]: recipe

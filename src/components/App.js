@@ -25,6 +25,10 @@ class App extends Component {
   	}
   }
 
+  componentWillMount() {
+	Modal.setAppElement('body');
+  }
+
   openFoodModal = ({meal, day}) => {
   	this.setState(()=>({
   		foodModalOpen: true,
@@ -53,7 +57,7 @@ class App extends Component {
 
   	fetchRecipes(this.input.value).then((food)=>{
   		this.setState(()=>({food, loadingFood:false}))
-  		console.log(this.state)
+
   	})
 
   }
@@ -63,6 +67,7 @@ class App extends Component {
   generateShoppingList = () => {
   	return this.props.calendar.reduce((result, {meals})=>{
   		const {breakfast, lunch, dinner} = meals
+  		console.log("meals", meals)
   		breakfast && result.push(breakfast)
   		lunch && result.push(lunch)
   		dinner && result.push(dinner)
@@ -78,7 +83,10 @@ class App extends Component {
 
 
   	const {foodModalOpen, loadingFood, food, ingredientsModalOpen} = this.state
+
   	const {calendar, removeFromCalendar, addRecipe} = this.props
+  	console.log("calendar", calendar)
+
   	const mealOrder = ['breakfast', 'lunch', 'dinner']
 
     return (
@@ -198,6 +206,7 @@ const mapStateToProps = ({food, calendar}) => {
 		calendar : days.map((day)=>({
 
 			day,
+
 			meals : Object.keys(calendar[day]).reduce((meals, meal) => {
 
 				meals[meal] = calendar[day][meal] ? food[calendar[day][meal]] : null
@@ -216,4 +225,13 @@ const mapDispatchToProps = (dispatch) => {
 		removeFromCalendar: (data) => dispatch(removeFromCalendar(data))
 	}
 }
+
+// We established previously that there is no way to directly interact with the store.
+// We can either retrieve data by obtaining its current state, or change its state by
+// dispatching an action (we only have access to the top and bottom component of the redux
+// flow diagram shown previously).
+
+// This is precisely what connect does. Consider this piece of code, which uses connect
+// to map the stores state and dispatch to the props of a component
+
 export default connect(mapStateToProps, mapDispatchToProps)(App)

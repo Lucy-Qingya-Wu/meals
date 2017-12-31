@@ -11,7 +11,7 @@ export default function FoodList ({ food, onSelect }) {
   if (food.length === 0) {
     return <p>Your search has 0 results.</p>
   }
-
+  console.log("food", food)
   return (
     <ul className='food-list'>
       {food.map((item) => (
